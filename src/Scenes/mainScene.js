@@ -1,9 +1,9 @@
 class MainScene extends Phaser.Scene{
   
     preload() {
-      this.load.image('sky', 'sprites/background-day.png');
-      this.load.image('pipe', 'sprites/pipe-red.png');
-      this.load.image('bird', 'sprites/bluebird-downflap.png');
+      this.load.image('sky', 'src/sprites/background-day.png');
+      this.load.image('pipe', 'src/sprites/pipe-red.png');
+      this.load.image('bird', 'src/sprites/bluebird-downflap.png');
    }
    create() {
 
