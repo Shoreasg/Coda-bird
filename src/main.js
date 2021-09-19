@@ -1,8 +1,10 @@
+// this is where everything loads
 const config = {
     type: Phaser.AUTO,
     title: "Coda Bird",
     url: "https://shoreasg.github.io/Coda-bird/",
     parent: "main",
+    input: true,
     width: 288,
     height: 512,
     version: 1.0,
@@ -13,26 +15,12 @@ const config = {
             gravity: { y: 200 }
         }
     },
-    scene: {
-        preload: preload,
-        create: create
-    }
+    scene: MainScene
+           
+    
 };
 
 let game = new Phaser.Game(config);
 
-function preload() {
 
-    this.load.image('sky', 'sprites/background-day.png');
-}
-
-
-
-function create() {
-
-    const sky = this.add.image(0, 0, 'sky').setOrigin(0);
-
-
-
-}
 
