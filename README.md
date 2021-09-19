@@ -15,7 +15,7 @@ Reason:
 
 Started off with researching and reading the API documentation. Then i start to do basic setup and managed to load my background and play canvas.
 
-## Day 2- 19/2/2121
+## Day 2- 19/9/2121
 - Added Player and Movement
 - Added Pipes
 
