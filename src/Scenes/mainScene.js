@@ -33,8 +33,11 @@ class MainScene extends Phaser.Scene {
    }
 
    birdFlap() {
-      this.input.on("pointerdown", () => {
+      this.input.on("pointerdown", (e) => {
+         if(e.leftButtonDown())
+         {
          this.bird.setVelocityY(-200);
+         }
       })
    }
 
