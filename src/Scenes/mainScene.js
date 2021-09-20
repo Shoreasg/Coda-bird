@@ -10,13 +10,13 @@ class MainScene extends Phaser.Scene {
       this.createBg();
       this.createBird();
       this.createPipes();
-      
+      this.checkCollision();
+
 
    }
    update() {
-      if (this.bird.y < 0 || this.bird.y > 512) {
-         this.scene.restart();
-      }
+      this.checkBirdOutofBound();
+      this.reusePipes();
    }
 
    createBg() {
@@ -25,9 +25,10 @@ class MainScene extends Phaser.Scene {
    }
 
    createBird() {
-      this.bird = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'bird');
+      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird');
       this.bird.body.gravity.y = 500;
       this.birdFlap();
+
 
    }
 
@@ -40,15 +41,15 @@ class MainScene extends Phaser.Scene {
 
 
    createPipes() {
-      this.pipes= this.physics.add.group();
-      this.xDistance = 0;
+      this.pipes = this.physics.add.group();
+      this.randxDistance = 0;
 
-      for (let i = 0; i < 4; i++) {
-    
-         const upper = this.pipes.create(0, 0, "pipe").setOrigin(0,1).setFlipY(true);
-         const lower = this.pipes.create(0, 0, "pipe").setOrigin(0,0);
-         this.placePipes(upper,lower);
-   
+      for (let i = 0; i < 2; i++) {
+
+         const upper = this.pipes.create(0, 0, "pipe").setOrigin(0, 1).setFlipY(true);
+         const lower = this.pipes.create(0, 0, "pipe").setOrigin(0, 0);
+         this.placePipes(upper, lower);
+
 
       }
 
@@ -56,15 +57,48 @@ class MainScene extends Phaser.Scene {
 
    }
 
-   placePipes(upper,lower)
-   {
-      upper.x = 200 + this.xDistance;
-      upper.y = 100;
+   placePipes(upper, lower) {
+
+      const xPostition = 300 // first position will be position 300
+      let randUpperYPosition = Math.floor(Math.random() * 221) + 100// random num from 100 -320
+      let randLowerYDistance = Math.floor(Math.random() * 51) + 100 // random num from 50-100
+      upper.x = xPostition + this.randxDistance; // first position will be 300 then second pipe will add random distance.
+      upper.y = randUpperYPosition;
 
       lower.x = upper.x;
-      lower.y = 100+200;
+      lower.y = upper.y + randLowerYDistance;
 
-      this.xDistance +=400;
+
+      this.randxDistance += Math.floor(Math.random() * 101) + 200; // choose random num from 200 - 300 from the pipe from previous and add
+   }
+
+   reusePipes() {
+      //create an empty array. If the pipes goes out of bounds, i push it in the array. then if array is full, i place the pipe again reusing it.
+      let usedPipes = [];
+      this.pipes.getChildren().forEach(pipe => {
+         if (pipe.getBounds().right <= 0) // if position of the right side of the pipe canvas reaches 0 or < 0. Then i assumed that the pipe is out of the main canvas.
+         {
+            usedPipes.push(pipe);
+            if (usedPipes.length == 2) {
+               this.placePipes(...usedPipes);
+            }
+         }
+
+      })
+   }
+
+   checkCollision() {
+      this.physics.add.collider(this.bird, this.pipes, this.gameover, null, this);
+   }
+
+   checkBirdOutofBound() {
+      if (this.bird.y < 0 || this.bird.y > 512) {
+         this.gameover();
+      }
+   }
+
+   gameover() {
+      this.scene.restart();
    }
 
 }
