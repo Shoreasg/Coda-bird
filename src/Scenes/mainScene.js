@@ -45,9 +45,9 @@ class MainScene extends Phaser.Scene {
 
    createPipes() {
       this.pipes = this.physics.add.group();
-      this.randxDistance = 0;
+      this.randxDistance = 0
 
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 4; i++) {
 
          const upper = this.pipes.create(0, 0, "pipe").setOrigin(0, 1).setFlipY(true);
          const lower = this.pipes.create(0, 0, "pipe").setOrigin(0, 0);
@@ -62,9 +62,10 @@ class MainScene extends Phaser.Scene {
 
    placePipes(upper, lower) {
 
-      const xPostition = 300 // first position will be position 300
+      const xPostition = this.getRightPipePosition(); // first position will be position 300
       let randUpperYPosition = Math.floor(Math.random() * 221) + 100// random num from 100 -320
       let randLowerYDistance = Math.floor(Math.random() * 51) + 100 // random num from 50-100
+      this.randxDistance = Math.floor(Math.random() * 101) + 200; // choose random num from 200 - 300 from the pipe from previous and add
       upper.x = xPostition + this.randxDistance; // first position will be 300 then second pipe will add random distance.
       upper.y = randUpperYPosition;
 
@@ -72,7 +73,7 @@ class MainScene extends Phaser.Scene {
       lower.y = upper.y + randLowerYDistance;
 
 
-      this.randxDistance += Math.floor(Math.random() * 101) + 200; // choose random num from 200 - 300 from the pipe from previous and add
+      
    }
 
    reusePipes() {
@@ -88,6 +89,17 @@ class MainScene extends Phaser.Scene {
          }
 
       })
+   }
+
+   getRightPipePosition()
+   {
+      let rightPipeX = 0
+      this.pipes.getChildren().forEach(pipe =>
+         {
+            rightPipeX= Math.max(pipe.x,rightPipeX);
+         })
+
+         return rightPipeX;
    }
 
    checkCollision() {

@@ -5,7 +5,7 @@ const config = {
     url: "https://shoreasg.github.io/Coda-bird/",
     parent: "main",
     input: true,
-    width: 288,
+    width: 888,
     height: 512,
     version: 1.0,
     autoCenter: Phaser.Scale.CENTER_BOTH,
