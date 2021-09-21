@@ -49,4 +49,18 @@ Issue that i had
  Tomorrow, I will be creating coins and maybe bullets for the player to collect and dodge respectively. Then i will research on how to change scenes.
 
 
+## Day 4- 21/9/2121
 
+- Added coins and collision for coins.
+- Fixed Pipes spawning distance
+
+
+Fourth day, i found some bugs while playing the game. I realized that my pipes get spawned even further away after each time it passes. I fix the bug by getting the previous position of the pipe and then do the necessary calcluations. After that i implemented coins into the game and the player is able to collect coins now. After testing the game, i realized that it is quite hard to collect the coins. Not sure should i even add bullets as a obstacle for the players to dodge. I will think about it.
+
+Issues that i had
+
+1. I had trouble trying to make the coin respawn after the player collect it. Maybe my logic is wrong. I will spend sometime tomorrow to think about it.
+
+2. I sepend a lot of time to think on how to fix the pipes being spawn further away after each time it passes.
+
+Tomorrow, i will spend time to think of coin respawn and maybe to add bullets into it. I will let some people to test play it before deciding whether to add bullets or not.

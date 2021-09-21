@@ -4,19 +4,23 @@ class MainScene extends Phaser.Scene {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
       this.load.image('bird', 'src/sprites/bluebird-downflap.png');
+      this.load.image('coin', 'src/sprites/coin.png');
    }
    create() {
 
       this.createBg();
       this.createBird();
       this.createPipes();
+      this.createCoins();
       this.checkCollision();
+
 
 
    }
    update() {
       this.checkBirdOutofBound();
       this.reusePipes();
+      this.reuseCoins();
    }
 
    createBg() {
@@ -30,18 +34,8 @@ class MainScene extends Phaser.Scene {
       this.birdFlap();
 
 
+
    }
-
-   birdFlap() {
-      this.input.on("pointerdown", (e) => {
-         if(e.leftButtonDown())
-         {
-         this.bird.setVelocityY(-200);
-         }
-      })
-   }
-
-
 
    createPipes() {
       this.pipes = this.physics.add.group();
@@ -60,6 +54,66 @@ class MainScene extends Phaser.Scene {
 
    }
 
+   createCoins() {
+
+      this.coins = this.physics.add.group();
+      this.coinXdistance = 0;
+
+
+      for (let i = 0; i < 101; i++) {
+
+
+
+         const groupOfCoins = this.coins.create(0, 0, "coin")
+         this.placeCoins(groupOfCoins);
+
+
+
+      }
+
+      this.coins.setVelocityX(-100);
+
+   }
+
+   createScore() {
+
+   }
+
+   getRightPipePosition() {
+      let rightPipeX = 0
+      this.pipes.getChildren().forEach(pipe => {
+
+         rightPipeX = Math.max(pipe.x, rightPipeX);
+      })
+
+      return rightPipeX;
+   }
+
+   getRightCoinPosition() {
+      let rightCoinX = 0
+      this.coins.getChildren().forEach(coin => {
+
+         rightCoinX = Math.max(coin.x, rightCoinX);
+      })
+
+      return rightCoinX;
+   }
+
+
+
+
+   checkCollision() {
+      this.physics.add.collider(this.bird, this.pipes, this.gameover, null, this);
+      this.physics.add.overlap(this.bird, this.coins, this.collectstar, null, this);
+   }
+
+   checkBirdOutofBound() {
+      if (this.bird.y < 0 || this.bird.y > 512) {
+         this.gameover();
+      }
+   }
+
+
    placePipes(upper, lower) {
 
       const xPostition = this.getRightPipePosition(); // first position will be position 300
@@ -73,7 +127,18 @@ class MainScene extends Phaser.Scene {
       lower.y = upper.y + randLowerYDistance;
 
 
-      
+
+   }
+
+   placeCoins(coin) {
+      let coinsXPosition = this.getRightCoinPosition();
+      let coinsYPosition = Math.floor(Math.random() * 401) + 100
+      this.randcoinXdistance = Math.floor(Math.random() * 127) + 144
+
+      coin.x = coinsXPosition + this.randcoinXdistance;
+      coin.y = coinsYPosition;
+
+
    }
 
    reusePipes() {
@@ -91,29 +156,39 @@ class MainScene extends Phaser.Scene {
       })
    }
 
-   getRightPipePosition()
-   {
-      let rightPipeX = 0
-      this.pipes.getChildren().forEach(pipe =>
+   reuseCoins() {
+      let usedCoins = [];
+      this.coins.getChildren().forEach(coin => {
+         if (coin.getBounds().right <= 0) // if position of the right side of the pipe canvas reaches 0 or < 0. Then i assumed that the pipe is out of the main canvas.
          {
-            rightPipeX= Math.max(pipe.x,rightPipeX);
-         })
+            usedCoins.push(coin);
+            if (usedCoins.length == 1) {
+               this.placeCoins(usedCoins[0]);
+            }
+         }
 
-         return rightPipeX;
+
+      })
    }
 
-   checkCollision() {
-      this.physics.add.collider(this.bird, this.pipes, this.gameover, null, this);
-   }
-
-   checkBirdOutofBound() {
-      if (this.bird.y < 0 || this.bird.y > 512) {
-         this.gameover();
-      }
-   }
 
    gameover() {
       this.scene.restart();
+   }
+
+
+
+   birdFlap() {
+      this.input.on("pointerdown", (e) => {
+         if (e.leftButtonDown()) {
+            this.bird.setVelocityY(-200);
+         }
+      })
+   }
+
+   collectstar(bird, coin) {
+      coin.disableBody(false, true);
+
    }
 
 }
