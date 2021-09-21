@@ -64,8 +64,8 @@ class MainScene extends Phaser.Scene {
 
       const xPostition = this.getRightPipePosition(); // first position will be position 300
       let randUpperYPosition = Math.floor(Math.random() * 221) + 100// random num from 100 -320
-      let randLowerYDistance = Math.floor(Math.random() * 51) + 100 // random num from 50-100
-      this.randxDistance = Math.floor(Math.random() * 101) + 200; // choose random num from 200 - 300 from the pipe from previous and add
+      let randLowerYDistance = Math.floor(Math.random() * 51) + 100 // random num from 100-150
+      this.randxDistance = Math.floor(Math.random() * 201) + 400; // choose random num from 200 - 300 from the pipe from previous and add
       upper.x = xPostition + this.randxDistance; // first position will be 300 then second pipe will add random distance.
       upper.y = randUpperYPosition;
 
