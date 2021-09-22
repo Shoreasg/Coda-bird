@@ -1,25 +1,48 @@
 class MainScene extends Phaser.Scene {
+   constructor() {
+      super("GameScene");
+     
+      
+      
+   }
 
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
       this.load.image('bird', 'src/sprites/bluebird-downflap.png');
-      this.load.image('coin', 'src/sprites/coin.png');
+      this.load.image('coin', 'src/sprites/star.png');
    }
    create() {
-
+      
+      this.respawntime = 0;
+      this.score = 0;
+      this.scoreText;
+      this.pipesSpeed = -200;
+      this.coinSpeed = -300;
+      this.birdFlapSpeed= -200;
       this.createBg();
       this.createBird();
       this.createPipes();
       this.createCoins();
-      this.checkCollision();
-
+      this.checkbirdCollision();
+      this.checkcoinCollision();
+      this.createScore();
 
 
    }
-   update() {
+   update(time, delta) {
+      this.increaseDifficulty();
       this.checkBirdOutofBound();
       this.reusePipes();
+
+      this.respawntime += delta;
+      if (this.respawntime >= 5000) {
+         this.createCoins();
+         this.checkcoinCollision();
+         this.respawntime = 0
+      }
+
+      
       this.reuseCoins();
    }
 
@@ -50,34 +73,45 @@ class MainScene extends Phaser.Scene {
 
       }
 
-      this.pipes.setVelocityX(-200);
+      
+  
+      this.pipes.setVelocityX(this.pipesSpeed);
 
    }
 
    createCoins() {
 
       this.coins = this.physics.add.group();
-      this.coinXdistance = 0;
+      this.coin_x_Distance = 0;
 
 
-      for (let i = 0; i < 101; i++) {
+      for (let i = 0; i < 2; i++) {
 
 
 
          const groupOfCoins = this.coins.create(0, 0, "coin")
+         this.coins.getChildren().forEach(coin => {
+            coin.enableBody(true);
+         })
          this.placeCoins(groupOfCoins);
 
 
 
       }
 
-      this.coins.setVelocityX(-100);
+      this.coins.setVelocityX(this.coinSpeed);
+
+   }
+   
+   createScore()
+   {
+      
+      this.scoreText = this.add.text(0,0,"Coins: 0",{fontSize: '20px', fill: '#000' })
 
    }
 
-   createScore() {
 
-   }
+
 
    getRightPipePosition() {
       let rightPipeX = 0
@@ -100,10 +134,13 @@ class MainScene extends Phaser.Scene {
    }
 
 
-
-
-   checkCollision() {
+   checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameover, null, this);
+     
+   }
+
+   checkcoinCollision()
+   {
       this.physics.add.overlap(this.bird, this.coins, this.collectstar, null, this);
    }
 
@@ -133,9 +170,9 @@ class MainScene extends Phaser.Scene {
    placeCoins(coin) {
       let coinsXPosition = this.getRightCoinPosition();
       let coinsYPosition = Math.floor(Math.random() * 401) + 100
-      this.randcoinXdistance = Math.floor(Math.random() * 127) + 144
+      this.coin_x_Distance = Math.floor(Math.random() * 201) + 400
 
-      coin.x = coinsXPosition + this.randcoinXdistance;
+      coin.x = coinsXPosition + this.coin_x_Distance;
       coin.y = coinsYPosition;
 
 
@@ -177,18 +214,32 @@ class MainScene extends Phaser.Scene {
    }
 
 
-
    birdFlap() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
-            this.bird.setVelocityY(-200);
+            this.bird.setVelocityY(this.birdFlapSpeed);
          }
       })
    }
 
    collectstar(bird, coin) {
-      coin.disableBody(false, true);
+      coin.disableBody(true,true)
+      this.score += 1;
+     
+      
+      this.scoreText.setText(`Coins: ${this.score}`);
 
+
+   }
+   increaseDifficulty()
+   {
+      if (this.score === 5)
+      {
+         this.pipesSpeed = -300;
+         this.coinSpeed = -400;
+         this.coins.setVelocityX(this.coinSpeed);
+         this.pipes.setVelocityX(this.pipesSpeed);
+      }
    }
 
 }
