@@ -64,3 +64,20 @@ Issues that i had
 2. I sepend a lot of time to think on how to fix the pipes being spawn further away after each time it passes.
 
 Tomorrow, i will spend time to think of coin respawn and maybe to add bullets into it. I will let some people to test play it before deciding whether to add bullets or not.
+
+
+## Day 5- 22/9/2121
+
+- Fix Coins spawning logic.
+- Added score and change some parameters to global variable so that i can change the difficulty.
+
+
+Fifth day, i managed to find the reason why my coin isn't respawning after collecting it. I need to update it and set a timer to call create. Every 5 seconds, i will call the create function and create the coins respectively. I also added a simple score board and change some parameters. If user collected 5 stars, i will increase the pipe speed to make the game even harder.
+
+Issues that i had
+
+1. Took me a while to think why my respawning isn't working. 
+2. I also tried to destory the coins when it reaches outside of the canvas. I feel that this is not very optimized if i do that so i kept the logic of if coin is outside of the canvas, i will reuse it until players collect it.
+
+Tomorrow, i will be letting people to test it and from there, i will ask decide if i want to add more obstacles.
+
