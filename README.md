@@ -81,3 +81,25 @@ Issues that i had
 
 Tomorrow, i will be letting people to test it and from there, i will ask decide if i want to add more obstacles.
 
+
+
+## Day 6- 23/9/2121
+
+- Added Main Menu
+- Added 3 different levels
+
+Sixth day, i started working on the main menu and create functionalities such as after the user selected the level, the game will pause until user clicked to start. Also added localstorage to keep track of that particular level highscore.
+
+Easy level gameplay would be flappybird gameplay. Simple and slow
+Normal Gameplay would be flappybird but instead of earning points by dodging pipes, Players earn points by collecting stars
+Hard Gameplay would required player to collect stars, dodge pipes and incoming bullets at the same time
+
+Easy and normal level framework is done. I will be adding bullets obstacles tomorrow for the hard level. Will also be implementing back functionality and pause functioanlity.
+
+Issues that i had
+
+1. Took me to understand how the scene worked. Apparently pausing the scene will cause everything to be pause. Instead of pausing the scene before the user start, i paused the physics instead, creating the illusion of its paused.
+
+2. I feel that i could tidy up my main menu code. I don't find it really DRY. Maybe i should create a function to group the buttons together.
+
+

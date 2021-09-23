@@ -4,6 +4,7 @@ const config = {
     title: "Coda Bird",
     url: "https://shoreasg.github.io/Coda-bird/",
     parent: "main",
+    input: true,
     width: 288,
     height: 512,
     version: 1.0,
@@ -11,7 +12,7 @@ const config = {
     physics: {
         default: 'arcade',
     },
-    scene: [MainMenu,MainScene]
+    scene: [MainMenu,EasyLevel,NormalLevel]
            
     
 };
