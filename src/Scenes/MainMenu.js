@@ -13,7 +13,6 @@ class MainMenu extends Phaser.Scene {
         this.createBg();
         this.createText();
         this.createChoices();
-        //
     }
 
     createBg() {
@@ -37,19 +36,19 @@ class MainMenu extends Phaser.Scene {
         this.easyButton = this.add.sprite(60, 300, "easyBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.easyHoverState())
             .on("pointerout", () => this.resetEasyState())
-            .on("pointerdown", () => this.clickedState());
+            .on("pointerdown", () => this.clickedEasyState());
 
 
         this.mediumButton =  this.add.sprite(140, 300, "mediumBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.mediumHoverState())
             .on("pointerout", () => this.resetMediumState())
-            .on("pointerdown", () => this.clickedState());
+            .on("pointerdown", () => this.clickedNormalState());
 
 
         this.hardButton =  this.add.sprite(220, 300, "hardBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.hardHoverState())
             .on("pointerout", () => this.resetHardState())
-            .on("pointerdown", () => this.clickedState());
+            .on("pointerdown", () => this.clickedHardState());
     }
 
     easyHoverState() {
@@ -82,9 +81,17 @@ class MainMenu extends Phaser.Scene {
     }
 
 
-    clickedState() {
+    clickedEasyState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("GameScene");
+        this.scene.launch("Easy");
+    }
+    clickedNormalState() {
+        this.scene.stop("titleScreen");
+        this.scene.launch("Normal");
+    }
+    clickedHardState() {
+        this.scene.stop("titleScreen");
+        this.scene.launch("Hard");
     }
 
 }

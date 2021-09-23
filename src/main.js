@@ -12,7 +12,7 @@ const config = {
     physics: {
         default: 'arcade',
     },
-    scene: [MainMenu,MainScene]
+    scene: [MainMenu,EasyLevel,NormalLevel]
            
     
 };

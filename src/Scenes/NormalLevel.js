@@ -1,6 +1,6 @@
-class MediumLevel extends Phaser.Scene {
+class NormalLevel extends Phaser.Scene {
    constructor() {
-      super("Medium");
+      super("Normal");
 
 
 
@@ -101,8 +101,8 @@ class MediumLevel extends Phaser.Scene {
    createScore() {
       this.score = 0;
       this.scoreText;
-      this.highScore = localStorage.getItem("this.highScore");
-      this.scoreText = this.add.text(0, 0, "Stars: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.highScore = localStorage.getItem("NormalHighScore");
+      this.scoreText = this.add.text(0, 0, "Pipes Evaded: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
       this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
    }
@@ -208,11 +208,11 @@ class MediumLevel extends Phaser.Scene {
    }
 
    saveHighScore() {
-      this.highScoreText = localStorage.getItem("this.highScore");
+      this.highScoreText = localStorage.getItem("NormalHighScore");
       this.highScore = this.highScoreText && parseInt(this.highScoreText);
 
       if (!this.highScore || this.score > this.highScore) {
-         localStorage.setItem("this.highScore", this.score);
+         localStorage.setItem("NormalHighScore", this.score);
       }
    }
 
@@ -234,9 +234,7 @@ class MediumLevel extends Phaser.Scene {
 
    collectStar(bird, coin) {
       coin.disableBody(true, true)
-      this.score += 1;
-      this.saveHighScore();
-      this.scoreText.setText(`Coins: ${this.score}`);
+      this.increaseScore();
 
 
    }
@@ -258,6 +256,13 @@ class MediumLevel extends Phaser.Scene {
             this.physics.resume();
          }
       })
+   }
+
+   increaseScore()
+   {
+      this.score += 1;
+      this.saveHighScore();
+      this.scoreText.setText(`Pipes Evaded: ${this.score}`);
    }
 
 }
