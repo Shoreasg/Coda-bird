@@ -102,7 +102,7 @@ class NormalLevel extends Phaser.Scene {
       this.score = 0;
       this.scoreText;
       this.highScore = localStorage.getItem("NormalHighScore");
-      this.scoreText = this.add.text(0, 0, "Pipes Evaded: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.scoreText = this.add.text(0, 0, "Stars Collected: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
       this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
    }
@@ -262,7 +262,7 @@ class NormalLevel extends Phaser.Scene {
    {
       this.score += 1;
       this.saveHighScore();
-      this.scoreText.setText(`Pipes Evaded: ${this.score}`);
+      this.scoreText.setText(`Stars Collected: ${this.score}`);
    }
 
 }
