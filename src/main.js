@@ -12,7 +12,7 @@ const config = {
     physics: {
         default: 'arcade',
     },
-    scene: [MainMenu,EasyLevel,NormalLevel,HardLevel]
+    scene: [MainMenu,DodgePipes,CollectStars,DodgeBirds]
            
     
 };

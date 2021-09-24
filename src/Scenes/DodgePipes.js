@@ -1,16 +1,12 @@
-class NormalLevel extends Phaser.Scene {
+class DodgePipes extends Phaser.Scene {
    constructor() {
-      super("Normal");
-
-
-
+      super("DodgePipes");
    }
 
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/redbird-downflap.png');
-      this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('bird', 'src/sprites/bluebird-downflap.png');
    }
    create() {
       this.physics.pause();
@@ -22,29 +18,17 @@ class NormalLevel extends Phaser.Scene {
       this.createBg();
       this.createBird();
       this.createPipes();
-      this.createCoins();
       this.checkbirdCollision();
-      this.checkcoinCollision();
       this.createScore();
       this.createIns();
 
 
    }
-   update(time, delta) {
+   update() {
 
-      this.increaseDifficulty();
+      
       this.checkBirdOutofBound();
       this.reusePipes();
-
-      this.respawntime += delta;
-      if (this.respawntime >= 5000) {
-         this.createCoins();
-         this.checkcoinCollision();
-         this.respawntime = 0;
-      }
-
-
-      this.reuseCoins();
    }
 
    createBg() {
@@ -77,43 +61,27 @@ class NormalLevel extends Phaser.Scene {
 
    }
 
-   createCoins() {
-
-      this.coins = this.physics.add.group();
-
-
-      const groupOfCoins = this.coins.create(0, 0, "coin")
-      this.placeCoins(groupOfCoins);
-
-      this.coins.setVelocityX(this.coinSpeed);
-
-   }
-
+  
    createScore() {
       this.score = 0;
       this.scoreText;
-      this.highScore = localStorage.getItem("NormalHighScore");
-      this.scoreText = this.add.text(0, 0, "Stars Collected: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
-      this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.highScore = localStorage.getItem("easyHighScore");
+      this.scoreText = this.add.text(0, 0, "Pipes Evaded: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.highScoreText = this.add.text(0, 20, `Highest Pipes Evaded: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
    }
 
    createIns()
    {
-      this.insText= this.add.text(0, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText = this.add.text(5, 170, "Evade the Pipes", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      
    }
 
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
 
    }
-
-   checkcoinCollision() {
-      this.physics.add.overlap(this.bird, this.coins, this.collectStar, null, this);
-   }
-
-
-
 
    getRightPipePosition() {
       let rightPipeX = 0
@@ -124,7 +92,6 @@ class NormalLevel extends Phaser.Scene {
 
       return rightPipeX;
    }
-
 
    checkBirdOutofBound() {
       if (this.bird.y < 0 || this.bird.y > 512) {
@@ -147,19 +114,6 @@ class NormalLevel extends Phaser.Scene {
 
    }
 
-
-   placeCoins(coin) {
-      let coinsXPosition = Math.floor(Math.random() * 201) + 400
-      let coinsYPosition = Math.floor(Math.random() * 401) + 100
-
-
-      coin.x = coinsXPosition
-      coin.y = coinsYPosition;
-
-
-   }
-
-
    reusePipes() {
       //create an empty array. If the pipes goes out of bounds, i push it in the array. then if array is full, i place the pipe again reusing it.
       let usedPipes = [];
@@ -168,6 +122,7 @@ class NormalLevel extends Phaser.Scene {
          {
             usedPipes.push(pipe);
             if (usedPipes.length == 2) {
+               this.increaseScore();
                this.placePipes(...usedPipes);
             }
          }
@@ -175,26 +130,14 @@ class NormalLevel extends Phaser.Scene {
       })
    }
 
-   reuseCoins() {
-      let usedCoins = [];
-      this.coins.getChildren().forEach(coin => {
-         if (coin.getBounds().right <= 0) {
-            usedCoins.push(coin);
-            if (usedCoins.length == 1) {
-               this.placeCoins(usedCoins[0]);
-            }
-         }
-
-
-      })
-   }
+  
 
    saveHighScore() {
-      this.highScoreText = localStorage.getItem("NormalHighScore");
+      this.highScoreText = localStorage.getItem("easyHighScore");
       this.highScore = this.highScoreText && parseInt(this.highScoreText);
 
       if (!this.highScore || this.score > this.highScore) {
-         localStorage.setItem("NormalHighScore", this.score);
+         localStorage.setItem("easyHighScore", this.score);
       }
    }
 
@@ -214,25 +157,12 @@ class NormalLevel extends Phaser.Scene {
       })
    }
 
-   collectStar(bird, coin) {
-      coin.disableBody(true, true)
-      this.increaseScore();
-
-
-   }
-   increaseDifficulty() {
-      if (this.score === 5) {
-         this.pipesSpeed = -300;
-         this.coinSpeed = -400;
-         this.coins.setVelocityX(this.coinSpeed);
-         this.pipes.setVelocityX(this.pipesSpeed);
-      }
-   }
-
+ 
    resumeGame() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
+            this.insText2.destroy();
             this.physics.resume();
          }
       })
@@ -242,7 +172,7 @@ class NormalLevel extends Phaser.Scene {
    {
       this.score += 1;
       this.saveHighScore();
-      this.scoreText.setText(`Stars Collected: ${this.score}`);
+      this.scoreText.setText(`Pipes Evaded: ${this.score}`);
    }
 
 }

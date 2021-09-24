@@ -1,6 +1,6 @@
-class HardLevel extends Phaser.Scene {
+class DodgeBirds extends Phaser.Scene {
    constructor() {
-      super("Hard");
+      super("DodgeBirds");
 
 
 
@@ -115,7 +115,8 @@ class HardLevel extends Phaser.Scene {
    }
 
    createIns() {
-      this.insText = this.add.text(0, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText = this.add.text(15, 170, "Dodge Birds!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
    checkbirdCollision() {
@@ -275,6 +276,7 @@ class HardLevel extends Phaser.Scene {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
+            this.insText2.destroy();
             this.physics.resume();
          }
       })
