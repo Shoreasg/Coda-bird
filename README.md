@@ -103,3 +103,14 @@ Issues that i had
 2. I feel that i could tidy up my main menu code. I don't find it really DRY. Maybe i should create a function to group the buttons together.
 
 
+## Day 7- 23/9/2121
+
+- Added final mode and spawning of enemy birds
+- Added pause button
+
+Seventh Day, i decided to rename my game and i have created the final mode and the spawning of enemy birds. I changed the logic of the spawning of both coins and enemybird. I will spawn one each and i don't check for the distance between the first spawn coin/enemy bird with the next spawn coin/bird. The distance between 2 of these can be different else it will be very weird to have the enemybirds and coin spanwing roughly the same distance.
+
+Issues i had
+
+1. I had issue creating the logic of the pause button. Might be due to my event listener. I will work on this tomorrow.
+

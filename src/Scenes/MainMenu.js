@@ -33,9 +33,7 @@ class MainMenu extends Phaser.Scene {
 
     createChoices() {
 
-       
-       this.buttons = this.add.group();
-
+    
         this.easyButton = this.add.sprite(60, 300, "easyBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.easyHoverState())
             .on("pointerout", () => this.resetEasyState())
