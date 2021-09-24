@@ -1,6 +1,6 @@
-class NormalLevel extends Phaser.Scene {
+class DodgeBirds extends Phaser.Scene {
    constructor() {
-      super("Normal");
+      super("DodgeBirds");
 
 
 
@@ -9,7 +9,8 @@ class NormalLevel extends Phaser.Scene {
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/bluebird-downflap.png');
+      this.load.image('bird', 'src/sprites/yellowbird-downflap.png');
+      this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
    }
    create() {
@@ -18,11 +19,13 @@ class NormalLevel extends Phaser.Scene {
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
+      this.enemyBirdSpeed = -400;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
       this.createPipes();
       this.createCoins();
+      this.createEnemyBird();
       this.checkbirdCollision();
       this.checkcoinCollision();
       this.createScore();
@@ -43,8 +46,8 @@ class NormalLevel extends Phaser.Scene {
          this.respawntime = 0;
       }
 
-
       this.reuseCoins();
+      this.reuseEnemyBirds();
    }
 
    createBg() {
@@ -80,40 +83,45 @@ class NormalLevel extends Phaser.Scene {
    createCoins() {
 
       this.coins = this.physics.add.group();
-      this.coin_x_Distance = 0;
 
 
-      for (let i = 0; i < 2; i++) {
-
-
-
-         const groupOfCoins = this.coins.create(0, 0, "coin")
-         this.placeCoins(groupOfCoins);
-
-
-
-      }
+      const groupOfCoins = this.coins.create(0, 0, "coin")
+      this.placeCoins(groupOfCoins);
 
       this.coins.setVelocityX(this.coinSpeed);
+
+   }
+
+   createEnemyBird() {
+
+      this.enemyBirds = this.physics.add.group();
+
+
+
+      const groupOfEnemyBirds = this.enemyBirds.create(0, 0, "enemyBird").setFlipX(true);
+      this.placeEnemyBirds(groupOfEnemyBirds);
+
+      this.enemyBirds.setVelocityX(this.enemyBirdSpeed);
 
    }
 
    createScore() {
       this.score = 0;
       this.scoreText;
-      this.highScore = localStorage.getItem("NormalHighScore");
-      this.scoreText = this.add.text(0, 0, "Stars Collected: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.highScore = localStorage.getItem("hardHighScore");
+      this.scoreText = this.add.text(0, 0, "Stars: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
       this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
    }
 
-   createIns()
-   {
-      this.insText= this.add.text(0, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+   createIns() {
+      this.insText = this.add.text(15, 170, "Dodge Birds!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
+      this.physics.add.collider(this.bird, this.enemyBirds, this.gameOver, null, this);
 
    }
 
@@ -132,16 +140,6 @@ class NormalLevel extends Phaser.Scene {
       })
 
       return rightPipeX;
-   }
-
-   getRightCoinPosition() {
-      let rightCoinX = 0
-      this.coins.getChildren().forEach(coin => {
-
-         rightCoinX = Math.max(coin.x, rightCoinX);
-      })
-
-      return rightCoinX;
    }
 
 
@@ -168,12 +166,23 @@ class NormalLevel extends Phaser.Scene {
    }
 
    placeCoins(coin) {
-      let coinsXPosition = this.getRightCoinPosition();
+      let coinsXPosition = Math.floor(Math.random() * 201) + 400
       let coinsYPosition = Math.floor(Math.random() * 401) + 100
-      this.coin_x_Distance = Math.floor(Math.random() * 201) + 400
 
-      coin.x = coinsXPosition + this.coin_x_Distance;
+
+      coin.x = coinsXPosition
       coin.y = coinsYPosition;
+
+
+   }
+
+   placeEnemyBirds(enemyBird) {
+      let enemyBirdXPosition = Math.floor(Math.random() * 201) + 400
+      let enemyBirdYPosition = Math.floor(Math.random() * 401) + 100
+ 
+
+      enemyBird.x = enemyBirdXPosition;
+      enemyBird.y = enemyBirdYPosition;
 
 
    }
@@ -207,12 +216,26 @@ class NormalLevel extends Phaser.Scene {
       })
    }
 
+   reuseEnemyBirds() {
+      let usedEnemyBirds = [];
+      this.enemyBirds.getChildren().forEach(enemyBird => {
+         if (enemyBird.getBounds().right <= 0) {
+            usedEnemyBirds.push(enemyBird);
+            if (usedEnemyBirds.length == 1) {
+               this.placeEnemyBirds(usedEnemyBirds[0]);
+            }
+         }
+
+
+      })
+   }
+
    saveHighScore() {
-      this.highScoreText = localStorage.getItem("NormalHighScore");
+      this.highScoreText = localStorage.getItem("hardHighScore");
       this.highScore = this.highScoreText && parseInt(this.highScoreText);
 
       if (!this.highScore || this.score > this.highScore) {
-         localStorage.setItem("NormalHighScore", this.score);
+         localStorage.setItem("hardHighScore", this.score);
       }
    }
 
@@ -234,7 +257,9 @@ class NormalLevel extends Phaser.Scene {
 
    collectStar(bird, coin) {
       coin.disableBody(true, true)
-      this.increaseScore();
+      this.score += 1;
+      this.saveHighScore();
+      this.scoreText.setText(`Coins: ${this.score}`);
 
 
    }
@@ -248,21 +273,13 @@ class NormalLevel extends Phaser.Scene {
    }
 
    resumeGame() {
-      //debugger;
-
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
+            this.insText2.destroy();
             this.physics.resume();
          }
       })
-   }
-
-   increaseScore()
-   {
-      this.score += 1;
-      this.saveHighScore();
-      this.scoreText.setText(`Stars Collected: ${this.score}`);
    }
 
 }

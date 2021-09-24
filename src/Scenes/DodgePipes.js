@@ -1,37 +1,42 @@
-class EasyLevel extends Phaser.Scene {
+class DodgePipes extends Phaser.Scene {
    constructor() {
-      super("Easy");
-
-
-
+      super("DodgePipes");
    }
 
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
       this.load.image('bird', 'src/sprites/bluebird-downflap.png');
+      this.load.image('pauseBtn', 'src/sprites/pause.png');
    }
    create() {
-      this.physics.pause();
-      this.resumeGame();
+      
+      this.pause();
+      
+      
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
+      
       this.createPipes();
       this.checkbirdCollision();
       this.createScore();
       this.createIns();
+      this.resumeGame();
+      this.createPauseButton();
+     
 
 
    }
    update() {
 
-      
+
       this.checkBirdOutofBound();
       this.reusePipes();
+    
    }
 
    createBg() {
@@ -64,7 +69,7 @@ class EasyLevel extends Phaser.Scene {
 
    }
 
-  
+
    createScore() {
       this.score = 0;
       this.scoreText;
@@ -74,10 +79,18 @@ class EasyLevel extends Phaser.Scene {
 
    }
 
-   createIns()
-   {
-      this.insText= this.add.text(0, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+   createIns() {
+      this.insText = this.add.text(5, 170, "Evade the Pipes", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2 = this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+
    }
+
+   createPauseButton() {
+      this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => this.pause());
+      
+   }
+
 
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
@@ -131,7 +144,7 @@ class EasyLevel extends Phaser.Scene {
       })
    }
 
-  
+
 
    saveHighScore() {
       this.highScoreText = localStorage.getItem("easyHighScore");
@@ -158,21 +171,29 @@ class EasyLevel extends Phaser.Scene {
       })
    }
 
- 
+
    resumeGame() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
+            this.insText2.destroy();
             this.physics.resume();
+            
          }
+        
+
       })
+
    }
 
-   increaseScore()
-   {
+   increaseScore() {
       this.score += 1;
       this.saveHighScore();
       this.scoreText.setText(`Pipes Evaded: ${this.score}`);
+   }
+
+   pause() {
+      this.physics.pause();
    }
 
 }

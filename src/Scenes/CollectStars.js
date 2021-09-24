@@ -1,6 +1,6 @@
-class HardLevel extends Phaser.Scene {
+class CollectStars extends Phaser.Scene {
    constructor() {
-      super("Hard");
+      super("CollectStars");
 
 
 
@@ -9,7 +9,7 @@ class HardLevel extends Phaser.Scene {
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/bluebird-downflap.png');
+      this.load.image('bird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
    }
    create() {
@@ -80,19 +80,10 @@ class HardLevel extends Phaser.Scene {
    createCoins() {
 
       this.coins = this.physics.add.group();
-      this.coin_x_Distance = 0;
 
 
-      for (let i = 0; i < 2; i++) {
-
-
-
-         const groupOfCoins = this.coins.create(0, 0, "coin")
-         this.placeCoins(groupOfCoins);
-
-
-
-      }
+      const groupOfCoins = this.coins.create(0, 0, "coin")
+      this.placeCoins(groupOfCoins);
 
       this.coins.setVelocityX(this.coinSpeed);
 
@@ -101,15 +92,16 @@ class HardLevel extends Phaser.Scene {
    createScore() {
       this.score = 0;
       this.scoreText;
-      this.highScore = localStorage.getItem("this.highScore");
-      this.scoreText = this.add.text(0, 0, "Stars: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.highScore = localStorage.getItem("NormalHighScore");
+      this.scoreText = this.add.text(0, 0, "Stars Collected: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
       this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
    }
 
    createIns()
    {
-      this.insText= this.add.text(0, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText = this.add.text(10, 170, "Collect Stars!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
    checkbirdCollision() {
@@ -134,17 +126,6 @@ class HardLevel extends Phaser.Scene {
       return rightPipeX;
    }
 
-   getRightCoinPosition() {
-      let rightCoinX = 0
-      this.coins.getChildren().forEach(coin => {
-
-         rightCoinX = Math.max(coin.x, rightCoinX);
-      })
-
-      return rightCoinX;
-   }
-
-
 
    checkBirdOutofBound() {
       if (this.bird.y < 0 || this.bird.y > 512) {
@@ -167,16 +148,18 @@ class HardLevel extends Phaser.Scene {
 
    }
 
-   placeCoins(coin) {
-      let coinsXPosition = this.getRightCoinPosition();
-      let coinsYPosition = Math.floor(Math.random() * 401) + 100
-      this.coin_x_Distance = Math.floor(Math.random() * 201) + 400
 
-      coin.x = coinsXPosition + this.coin_x_Distance;
+   placeCoins(coin) {
+      let coinsXPosition = Math.floor(Math.random() * 201) + 400
+      let coinsYPosition = Math.floor(Math.random() * 401) + 100
+
+
+      coin.x = coinsXPosition
       coin.y = coinsYPosition;
 
 
    }
+
 
    reusePipes() {
       //create an empty array. If the pipes goes out of bounds, i push it in the array. then if array is full, i place the pipe again reusing it.
@@ -208,11 +191,11 @@ class HardLevel extends Phaser.Scene {
    }
 
    saveHighScore() {
-      this.highScoreText = localStorage.getItem("this.highScore");
+      this.highScoreText = localStorage.getItem("NormalHighScore");
       this.highScore = this.highScoreText && parseInt(this.highScoreText);
 
       if (!this.highScore || this.score > this.highScore) {
-         localStorage.setItem("this.highScore", this.score);
+         localStorage.setItem("NormalHighScore", this.score);
       }
    }
 
@@ -234,9 +217,7 @@ class HardLevel extends Phaser.Scene {
 
    collectStar(bird, coin) {
       coin.disableBody(true, true)
-      this.score += 1;
-      this.saveHighScore();
-      this.scoreText.setText(`Coins: ${this.score}`);
+      this.increaseScore();
 
 
    }
@@ -250,14 +231,20 @@ class HardLevel extends Phaser.Scene {
    }
 
    resumeGame() {
-      //debugger;
-
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
+            this.insText2.destroy();
             this.physics.resume();
          }
       })
+   }
+
+   increaseScore()
+   {
+      this.score += 1;
+      this.saveHighScore();
+      this.scoreText.setText(`Stars Collected: ${this.score}`);
    }
 
 }

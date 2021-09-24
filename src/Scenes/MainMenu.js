@@ -8,8 +8,10 @@ class MainMenu extends Phaser.Scene {
         this.load.image('easyBird', 'src/sprites/bluebird-downflap.png');
         this.load.image('mediumBird', 'src/sprites/redbird-downflap.png');
         this.load.image('hardBird', 'src/sprites/yellowbird-downflap.png');
+        this.createText();
     }
     create() {
+      
         this.createBg();
         this.createText();
         this.createChoices();
@@ -21,18 +23,17 @@ class MainMenu extends Phaser.Scene {
     }
 
     createText() {
-        this.add.text(50, 106, "Impossible", { fontFamily: 'VT323', fontSize: '50px', fill: '#000' });
-        this.add.text(115, 160, "Bird", { fontFamily: 'VT323', fontSize: '40px', fill: '#000' });
-        this.add.text(45, 260, "Easy", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
-        this.add.text(120, 260, "Medium", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
-        this.add.text(205, 260, "Hard", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
+        this.add.text(85, 106, "3 in 1", { fontFamily: 'VT323', fontSize: '50px', fill: '#000' });
+        this.add.text(110, 160, "Bird", { fontFamily: 'VT323', fontSize: '40px', fill: '#000' });
+        this.add.text(40, 200, "Select a mode!", { fontFamily: 'VT323', fontSize: '40px', fill: '#000' });
+        this.add.text(40, 260, "Pipes!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
+        this.add.text(120, 260, "Stars!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
+        this.add.text(200, 260, "Birds!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' });
     }
 
     createChoices() {
 
-       
-       this.buttons = this.add.group();
-
+    
         this.easyButton = this.add.sprite(60, 300, "easyBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.easyHoverState())
             .on("pointerout", () => this.resetEasyState())
@@ -83,15 +84,15 @@ class MainMenu extends Phaser.Scene {
 
     clickedEasyState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("Easy");
+        this.scene.launch("DodgePipes");
     }
     clickedNormalState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("Normal");
+        this.scene.launch("CollectStars");
     }
     clickedHardState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("Hard");
+        this.scene.launch("DodgeBirds");
     }
 
 }
