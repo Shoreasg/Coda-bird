@@ -9,7 +9,7 @@ class NormalLevel extends Phaser.Scene {
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/bluebird-downflap.png');
+      this.load.image('bird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
    }
    create() {
@@ -80,19 +80,10 @@ class NormalLevel extends Phaser.Scene {
    createCoins() {
 
       this.coins = this.physics.add.group();
-      this.coin_x_Distance = 0;
 
 
-      for (let i = 0; i < 2; i++) {
-
-
-
-         const groupOfCoins = this.coins.create(0, 0, "coin")
-         this.placeCoins(groupOfCoins);
-
-
-
-      }
+      const groupOfCoins = this.coins.create(0, 0, "coin")
+      this.placeCoins(groupOfCoins);
 
       this.coins.setVelocityX(this.coinSpeed);
 
@@ -134,17 +125,6 @@ class NormalLevel extends Phaser.Scene {
       return rightPipeX;
    }
 
-   getRightCoinPosition() {
-      let rightCoinX = 0
-      this.coins.getChildren().forEach(coin => {
-
-         rightCoinX = Math.max(coin.x, rightCoinX);
-      })
-
-      return rightCoinX;
-   }
-
-
 
    checkBirdOutofBound() {
       if (this.bird.y < 0 || this.bird.y > 512) {
@@ -167,16 +147,18 @@ class NormalLevel extends Phaser.Scene {
 
    }
 
-   placeCoins(coin) {
-      let coinsXPosition = this.getRightCoinPosition();
-      let coinsYPosition = Math.floor(Math.random() * 401) + 100
-      this.coin_x_Distance = Math.floor(Math.random() * 201) + 400
 
-      coin.x = coinsXPosition + this.coin_x_Distance;
+   placeCoins(coin) {
+      let coinsXPosition = Math.floor(Math.random() * 201) + 400
+      let coinsYPosition = Math.floor(Math.random() * 401) + 100
+
+
+      coin.x = coinsXPosition
       coin.y = coinsYPosition;
 
 
    }
+
 
    reusePipes() {
       //create an empty array. If the pipes goes out of bounds, i push it in the array. then if array is full, i place the pipe again reusing it.
@@ -248,8 +230,6 @@ class NormalLevel extends Phaser.Scene {
    }
 
    resumeGame() {
-      //debugger;
-
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();

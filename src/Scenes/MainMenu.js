@@ -8,8 +8,10 @@ class MainMenu extends Phaser.Scene {
         this.load.image('easyBird', 'src/sprites/bluebird-downflap.png');
         this.load.image('mediumBird', 'src/sprites/redbird-downflap.png');
         this.load.image('hardBird', 'src/sprites/yellowbird-downflap.png');
+        this.createText();
     }
     create() {
+      
         this.createBg();
         this.createText();
         this.createChoices();

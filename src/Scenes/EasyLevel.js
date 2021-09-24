@@ -1,9 +1,6 @@
 class EasyLevel extends Phaser.Scene {
    constructor() {
       super("Easy");
-
-
-
    }
 
    preload() {
