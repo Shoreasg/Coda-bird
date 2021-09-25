@@ -5,7 +5,7 @@ class gameOver extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('gameover', 'src/sprites/gameOver.png');
+        this.load.image('gameover', 'src/sprites/gameover.png');
         this.load.audio("GameOverMusic", "src/Music/POL-spirits-dance-short.wav")
     }
 
