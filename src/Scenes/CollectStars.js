@@ -287,9 +287,11 @@ class CollectStars extends Phaser.Scene {
    pauseorResume() {
       this.pauseButton.on("pointerdown", () => {
          if (this.gameisPaused === false) {
+            this.PausedText = this.add.text(120, game.config.height/2, "Paused", { fontFamily: 'VT323', fontSize: '20px', fill: '#F00' })
             this.pause();
          }
          else if (this.gameisPaused === true) {
+            this.PausedText.destroy();
             this.resume();
          }
       })
