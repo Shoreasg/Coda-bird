@@ -9,12 +9,15 @@ class CollectStars extends Phaser.Scene {
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/redbird-downflap.png');
+      this.load.image('bird2', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('pauseBtn', 'src/sprites/pause.png');
+      this.load.image('backBtn', 'src/sprites/back.png');
    }
    create() {
-      this.physics.pause();
-      this.resumeGame();
+      this.gameisPaused = false;
+      this.pause();
+
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
@@ -27,6 +30,8 @@ class CollectStars extends Phaser.Scene {
       this.checkcoinCollision();
       this.createScore();
       this.createIns();
+      this.createBackButton();
+      this.startGame();
 
 
    }
@@ -36,13 +41,14 @@ class CollectStars extends Phaser.Scene {
       this.checkBirdOutofBound();
       this.reusePipes();
 
-      this.respawntime += delta;
-      if (this.respawntime >= 5000) {
-         this.createCoins();
-         this.checkcoinCollision();
-         this.respawntime = 0;
+      if (this.gameisPaused === false) {
+         this.respawntime += delta;
+         if (this.respawntime >= 5000) {
+            this.createCoins();
+            this.checkcoinCollision();
+            this.respawntime = 0;
+         }
       }
-
 
       this.reuseCoins();
    }
@@ -53,7 +59,7 @@ class CollectStars extends Phaser.Scene {
    }
 
    createBird() {
-      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird');
+      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird2');
       this.bird.body.gravity.y = 500;
       this.birdFlap();
    }
@@ -98,10 +104,9 @@ class CollectStars extends Phaser.Scene {
 
    }
 
-   createIns()
-   {
+   createIns() {
       this.insText = this.add.text(10, 170, "Collect Stars!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
-      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2 = this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
    checkbirdCollision() {
@@ -113,8 +118,22 @@ class CollectStars extends Phaser.Scene {
       this.physics.add.overlap(this.bird, this.coins, this.collectStar, null, this);
    }
 
+   createPauseButton() {
 
 
+      this.pauseButton = this.add.sprite(15, 465, 'pauseBtn').setInteractive({ useHandCursor: true })
+
+      this.pauseorResume();
+
+
+
+   }
+   createBackButton() {
+
+
+      this.BackButton = this.add.sprite(15, 490, 'backBtn').setInteractive({ useHandCursor: true })
+      this.Back();
+   }
 
    getRightPipePosition() {
       let rightPipeX = 0
@@ -202,7 +221,8 @@ class CollectStars extends Phaser.Scene {
    gameOver() {
 
       this.saveHighScore();
-      this.scene.restart();
+      this.scene.stop("CollectStars");
+      this.scene.launch("GameOver");
    }
 
 
@@ -230,23 +250,58 @@ class CollectStars extends Phaser.Scene {
       }
    }
 
-   resumeGame() {
-      this.input.on("pointerdown", (e) => {
+   startGame() {
+      this.input.once("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
             this.insText2.destroy();
-            this.physics.resume();
+            this.resume();
+            this.createPauseButton();
          }
       })
    }
 
-   increaseScore()
-   {
+   increaseScore() {
       this.score += 1;
       this.saveHighScore();
       this.scoreText.setText(`Stars Collected: ${this.score}`);
    }
 
+   pause() {
+
+      this.gameisPaused = true;
+      this.physics.pause();
+
+
+
+   }
+
+   resume() {
+
+      this.gameisPaused = false;
+      this.physics.resume();
+
+
+   }
+
+   pauseorResume() {
+      this.pauseButton.on("pointerdown", () => {
+         if (this.gameisPaused === false) {
+            this.pause();
+         }
+         else if (this.gameisPaused === true) {
+            this.resume();
+         }
+      })
+
+   }
+   Back() {
+      this.BackButton.once("pointerdown", () => {
+         this.scene.stop("CollectStars");
+         this.scene.launch("titleScreen");
+
+      })
+   }
 }
 
 

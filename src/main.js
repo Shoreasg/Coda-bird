@@ -1,7 +1,7 @@
 // this is where everything loads
 const config = {
     type: Phaser.AUTO,
-    title: "Coda Bird",
+    title: "3 in 1 Bird",
     url: "https://shoreasg.github.io/Coda-bird/",
     parent: "main",
     input: true,
@@ -12,7 +12,7 @@ const config = {
     physics: {
         default: 'arcade',
     },
-    scene: [MainMenu,DodgePipes,CollectStars,DodgeBirds]
+    scene: [MainMenu,DodgePipes,CollectStars,DodgeBirds,gameOver]
            
     
 };

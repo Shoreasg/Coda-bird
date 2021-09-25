@@ -2,24 +2,25 @@ class DodgeBirds extends Phaser.Scene {
    constructor() {
       super("DodgeBirds");
 
-
-
    }
 
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/yellowbird-downflap.png');
+      this.load.image('bird3', 'src/sprites/yellowbird-downflap.png');
       this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('pauseBtn', 'src/sprites/pause.png');
+      this.load.image('backBtn', 'src/sprites/back.png');
    }
    create() {
-      this.physics.pause();
-      this.resumeGame();
+      this.gameisPaused = false;
+      this.pause();
+
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
-      this.enemyBirdSpeed = -400;
+      this.enemyBirdSpeed = -500;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
@@ -30,6 +31,8 @@ class DodgeBirds extends Phaser.Scene {
       this.checkcoinCollision();
       this.createScore();
       this.createIns();
+      this.createBackButton();
+      this.startGame();
 
 
    }
@@ -39,11 +42,13 @@ class DodgeBirds extends Phaser.Scene {
       this.checkBirdOutofBound();
       this.reusePipes();
 
-      this.respawntime += delta;
-      if (this.respawntime >= 5000) {
-         this.createCoins();
-         this.checkcoinCollision();
-         this.respawntime = 0;
+      if (this.gameisPaused === false) {
+         this.respawntime += delta;
+         if (this.respawntime >= 5000) {
+            this.createCoins();
+            this.checkcoinCollision();
+            this.respawntime = 0;
+         }
       }
 
       this.reuseCoins();
@@ -56,7 +61,7 @@ class DodgeBirds extends Phaser.Scene {
    }
 
    createBird() {
-      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird');
+      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird3');
       this.bird.body.gravity.y = 500;
       this.birdFlap();
    }
@@ -116,8 +121,26 @@ class DodgeBirds extends Phaser.Scene {
 
    createIns() {
       this.insText = this.add.text(15, 170, "Dodge Birds!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
-      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2 = this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
+
+   createPauseButton() {
+
+
+      this.pauseButton = this.add.sprite(15, 465, 'pauseBtn').setInteractive({ useHandCursor: true })
+
+      this.pauseorResume();
+
+   }
+
+
+   createBackButton() {
+
+
+      this.BackButton = this.add.sprite(15, 490, 'backBtn').setInteractive({ useHandCursor: true })
+      this.Back();
+   }
+
 
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
@@ -179,7 +202,7 @@ class DodgeBirds extends Phaser.Scene {
    placeEnemyBirds(enemyBird) {
       let enemyBirdXPosition = Math.floor(Math.random() * 201) + 400
       let enemyBirdYPosition = Math.floor(Math.random() * 401) + 100
- 
+
 
       enemyBird.x = enemyBirdXPosition;
       enemyBird.y = enemyBirdYPosition;
@@ -242,7 +265,8 @@ class DodgeBirds extends Phaser.Scene {
    gameOver() {
 
       this.saveHighScore();
-      this.scene.restart();
+      this.scene.stop("DodgeBirds");
+      this.scene.launch("GameOver");
    }
 
 
@@ -272,13 +296,50 @@ class DodgeBirds extends Phaser.Scene {
       }
    }
 
-   resumeGame() {
-      this.input.on("pointerdown", (e) => {
+   startGame() {
+      this.input.once("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
             this.insText2.destroy();
-            this.physics.resume();
+            this.resume();
+            this.createPauseButton();
          }
+      })
+   }
+
+   pause() {
+
+      this.gameisPaused = true;
+      this.physics.pause();
+
+
+
+   }
+
+   resume() {
+
+      this.gameisPaused = false;
+      this.physics.resume();
+
+
+   }
+
+   pauseorResume() {
+      this.pauseButton.on("pointerdown", () => {
+         if (this.gameisPaused === false) {
+            this.pause();
+         }
+         else if (this.gameisPaused === true) {
+            this.resume();
+         }
+      })
+
+   }
+   Back() {
+      this.BackButton.once("pointerdown", () => {
+         this.scene.stop("DodgeBirds");
+         this.scene.launch("titleScreen");
+
       })
    }
 

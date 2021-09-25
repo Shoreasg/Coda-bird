@@ -103,7 +103,7 @@ Issues that i had
 2. I feel that i could tidy up my main menu code. I don't find it really DRY. Maybe i should create a function to group the buttons together.
 
 
-## Day 7- 23/9/2121
+## Day 7- 24/9/2121
 
 - Added final mode and spawning of enemy birds
 - Added pause button
@@ -113,4 +113,17 @@ Seventh Day, i decided to rename my game and i have created the final mode and t
 Issues i had
 
 1. I had issue creating the logic of the pause button. Might be due to my event listener. I will work on this tomorrow.
+
+
+## Day 8- 25/9/2121
+
+- Added GameOver Scene.
+- Added Pause and Resume.
+- Added MainMenu and GameOver.
+
+Eight Day, i added my GameOver scene. Not really much issue for today. Also manage to find out what's the issue with my pause button logic. Seem like i set the input on the scene to everything there is a left click, it resume the scene hence the logic was broken. Also, while fixing it, i found a bug which is when i pause the game, the stars and enemies birds are spawning even though it is pause. I change the logic to if the game is pause, Spawning of coins and enemy birds will be pause too.
+
+Tomorrow i will be taking a break. After the break, i will be adding more sound effects and maybe animation to the bird. Will be adding scoreboard if i have the time.
+
+
 
