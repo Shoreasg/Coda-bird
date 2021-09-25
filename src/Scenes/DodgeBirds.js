@@ -12,10 +12,12 @@ class DodgeBirds extends Phaser.Scene {
       this.load.image('bird', 'src/sprites/yellowbird-downflap.png');
       this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('pauseBtn', 'src/sprites/pause.png');
    }
    create() {
-      this.physics.pause();
-      this.resumeGame();
+      this.gameisPaused = false;
+      this.pause();
+ 
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
@@ -30,6 +32,7 @@ class DodgeBirds extends Phaser.Scene {
       this.checkcoinCollision();
       this.createScore();
       this.createIns();
+      this.startGame();
 
 
    }
@@ -119,6 +122,14 @@ class DodgeBirds extends Phaser.Scene {
       this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
+   createPauseButton() {
+
+
+      this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
+
+      this.pauseorResume();
+
+   }
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
       this.physics.add.collider(this.bird, this.enemyBirds, this.gameOver, null, this);
@@ -272,14 +283,44 @@ class DodgeBirds extends Phaser.Scene {
       }
    }
 
-   resumeGame() {
-      this.input.on("pointerdown", (e) => {
+   startGame() {
+      this.input.once("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
             this.insText2.destroy();
-            this.physics.resume();
+            this.resume();
+            this.createPauseButton();
          }
       })
+   }
+
+   pause() {
+
+      this.gameisPaused = true;
+      this.physics.pause();
+
+
+
+   }
+
+   resume() {
+
+      this.gameisPaused = false;
+      this.physics.resume();
+
+
+   }
+
+   pauseorResume() {
+      this.pauseButton.on("pointerdown", () => {
+         if (this.gameisPaused === false) {
+            this.pause();
+         }
+         else if (this.gameisPaused === true) {
+            this.resume();
+         }
+      })
+
    }
 
 }

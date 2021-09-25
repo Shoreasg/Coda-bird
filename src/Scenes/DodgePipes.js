@@ -12,7 +12,7 @@ class DodgePipes extends Phaser.Scene {
    create() {
 
 
-      this.gameisPaused=false;
+      this.gameisPaused = false;
       this.pause();
 
 
@@ -28,7 +28,7 @@ class DodgePipes extends Phaser.Scene {
       this.createScore();
       this.createIns();
       this.startGame();
-      
+
 
 
    }
@@ -40,7 +40,7 @@ class DodgePipes extends Phaser.Scene {
 
 
 
-     
+
    }
 
    createBg() {
@@ -206,32 +206,29 @@ class DodgePipes extends Phaser.Scene {
 
       this.gameisPaused = true;
       this.physics.pause();
-      
-     
+
+
 
    }
 
    resume() {
-      
+
       this.gameisPaused = false;
       this.physics.resume();
-    
-     
+
+
    }
 
-   pauseorResume()
-   {
-     this.pauseButton.on("pointerdown",()=>{
-        if(this.gameisPaused === false)
-        {
-           this.pause();
-        }
-       else if(this.gameisPaused === true)
-        {
-           this.resume();
-        }
-     }) 
-     
+   pauseorResume() {
+      this.pauseButton.on("pointerdown", () => {
+         if (this.gameisPaused === false) {
+            this.pause();
+         }
+         else if (this.gameisPaused === true) {
+            this.resume();
+         }
+      })
+
    }
 
 }

@@ -11,10 +11,12 @@ class CollectStars extends Phaser.Scene {
       this.load.image('pipe', 'src/sprites/pipe-red.png');
       this.load.image('bird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('pauseBtn', 'src/sprites/pause.png');
    }
    create() {
-      this.physics.pause();
-      this.resumeGame();
+      this.gameisPaused = false;
+      this.pause();
+
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
@@ -27,6 +29,8 @@ class CollectStars extends Phaser.Scene {
       this.checkcoinCollision();
       this.createScore();
       this.createIns();
+
+      this.startGame();
 
 
    }
@@ -113,7 +117,14 @@ class CollectStars extends Phaser.Scene {
       this.physics.add.overlap(this.bird, this.coins, this.collectStar, null, this);
    }
 
+   createPauseButton() {
 
+
+      this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
+
+      this.pauseorResume();
+
+   }
 
 
    getRightPipePosition() {
@@ -230,12 +241,13 @@ class CollectStars extends Phaser.Scene {
       }
    }
 
-   resumeGame() {
-      this.input.on("pointerdown", (e) => {
+   startGame() {
+      this.input.once("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
             this.insText2.destroy();
-            this.physics.resume();
+            this.resume();
+            this.createPauseButton();
          }
       })
    }
@@ -245,6 +257,35 @@ class CollectStars extends Phaser.Scene {
       this.score += 1;
       this.saveHighScore();
       this.scoreText.setText(`Stars Collected: ${this.score}`);
+   }
+
+   pause() {
+
+      this.gameisPaused = true;
+      this.physics.pause();
+
+
+
+   }
+
+   resume() {
+
+      this.gameisPaused = false;
+      this.physics.resume();
+
+
+   }
+
+   pauseorResume() {
+      this.pauseButton.on("pointerdown", () => {
+         if (this.gameisPaused === false) {
+            this.pause();
+         }
+         else if (this.gameisPaused === true) {
+            this.resume();
+         }
+      })
+
    }
 
 }
