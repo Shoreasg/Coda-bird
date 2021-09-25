@@ -126,7 +126,7 @@ class CollectStars extends Phaser.Scene {
       this.pauseorResume();
 
 
-      
+
    }
    createBackButton() {
 
@@ -295,12 +295,11 @@ class CollectStars extends Phaser.Scene {
       })
 
    }
-   Back()
-   {
-      this.BackButton.once("pointerdown",() => {
+   Back() {
+      this.BackButton.once("pointerdown", () => {
          this.scene.stop("CollectStars");
          this.scene.launch("titleScreen");
-         
+
       })
    }
 }

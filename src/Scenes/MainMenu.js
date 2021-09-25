@@ -15,26 +15,29 @@ class MainMenu extends Phaser.Scene {
         this.createText();
     }
     create() {
-      
+
         this.createBg();
         this.createText();
         this.createChoices();
         this.createMusic();
     }
 
+
+
     createBg() {
         this.bg = this.physics.add.sprite(0, 0, 'background').setOrigin(0);
 
     }
 
-    createMusic()
-    {
+    createMusic() {
 
         this.music = this.sound.add("MainMenuMusic");
-       this.music.play("",
-        {
-            loop: true
-        })
+        this.music.play(
+            {
+                loop: true,
+            })
+
+
     }
     createText() {
         this.add.text(85, 106, "3 in 1", { fontFamily: 'VT323', fontSize: '50px', fill: '#000' });
@@ -47,20 +50,20 @@ class MainMenu extends Phaser.Scene {
 
     createChoices() {
 
-    
+
         this.easyButton = this.add.sprite(60, 300, "easyBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.easyHoverState())
             .on("pointerout", () => this.resetEasyState())
             .on("pointerdown", () => this.clickedEasyState());
 
 
-        this.mediumButton =  this.add.sprite(140, 300, "mediumBird").setInteractive({ useHandCursor: true })
+        this.mediumButton = this.add.sprite(140, 300, "mediumBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.mediumHoverState())
             .on("pointerout", () => this.resetMediumState())
             .on("pointerdown", () => this.clickedNormalState());
 
 
-        this.hardButton =  this.add.sprite(220, 300, "hardBird").setInteractive({ useHandCursor: true })
+        this.hardButton = this.add.sprite(220, 300, "hardBird").setInteractive({ useHandCursor: true })
             .on("pointerover", () => this.hardHoverState())
             .on("pointerout", () => this.resetHardState())
             .on("pointerdown", () => this.clickedHardState());
@@ -68,27 +71,27 @@ class MainMenu extends Phaser.Scene {
 
     easyHoverState() {
         this.easyButton.setTint(0xff0000);
-        
+
     }
     mediumHoverState() {
-        
+
         this.mediumButton.setTint(0xff0000);
-    
+
     }
     hardHoverState() {
-       
+
         this.hardButton.setTint(0xff0000);
     }
 
     resetEasyState() {
         this.easyButton.clearTint();
-       
+
     }
 
     resetMediumState() {
-    
+
         this.mediumButton.clearTint();
-     
+
     }
 
     resetHardState() {

@@ -16,7 +16,7 @@ class DodgeBirds extends Phaser.Scene {
    create() {
       this.gameisPaused = false;
       this.pause();
- 
+
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
@@ -121,7 +121,7 @@ class DodgeBirds extends Phaser.Scene {
 
    createIns() {
       this.insText = this.add.text(15, 170, "Dodge Birds!", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
-      this.insText2= this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
+      this.insText2 = this.add.text(10, 200, "Click to start", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
    }
 
    createPauseButton() {
@@ -133,7 +133,7 @@ class DodgeBirds extends Phaser.Scene {
 
    }
 
-     
+
    createBackButton() {
 
 
@@ -202,7 +202,7 @@ class DodgeBirds extends Phaser.Scene {
    placeEnemyBirds(enemyBird) {
       let enemyBirdXPosition = Math.floor(Math.random() * 201) + 400
       let enemyBirdYPosition = Math.floor(Math.random() * 401) + 100
- 
+
 
       enemyBird.x = enemyBirdXPosition;
       enemyBird.y = enemyBirdYPosition;
@@ -335,12 +335,11 @@ class DodgeBirds extends Phaser.Scene {
       })
 
    }
-   Back()
-   {
-      this.BackButton.once("pointerdown",() => {
+   Back() {
+      this.BackButton.once("pointerdown", () => {
          this.scene.stop("DodgeBirds");
          this.scene.launch("titleScreen");
-         
+
       })
    }
 

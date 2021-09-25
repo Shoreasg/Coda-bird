@@ -180,7 +180,7 @@ class DodgePipes extends Phaser.Scene {
       this.saveHighScore();
       this.scene.stop("DodgePipes");
       this.scene.launch("GameOver");
-     
+
    }
 
 
