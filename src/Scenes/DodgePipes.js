@@ -10,24 +10,25 @@ class DodgePipes extends Phaser.Scene {
       this.load.image('pauseBtn', 'src/sprites/pause.png');
    }
    create() {
-      
+
+
+      this.gameisPaused=false;
       this.pause();
-      
-      
+
+
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
-      
+
       this.createPipes();
       this.checkbirdCollision();
       this.createScore();
       this.createIns();
-      this.resumeGame();
-      this.createPauseButton();
-     
+      this.startGame();
+      
 
 
    }
@@ -36,7 +37,10 @@ class DodgePipes extends Phaser.Scene {
 
       this.checkBirdOutofBound();
       this.reusePipes();
-    
+
+
+
+     
    }
 
    createBg() {
@@ -86,10 +90,15 @@ class DodgePipes extends Phaser.Scene {
    }
 
    createPauseButton() {
+
+
       this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => this.pause());
-      
+
+      this.pauseorResume();
+
    }
+
+
 
 
    checkbirdCollision() {
@@ -172,15 +181,16 @@ class DodgePipes extends Phaser.Scene {
    }
 
 
-   resumeGame() {
-      this.input.on("pointerdown", (e) => {
+   startGame() {
+      this.input.once("pointerdown", (e) => {
          if (e.leftButtonDown()) {
             this.insText.destroy();
             this.insText2.destroy();
-            this.physics.resume();
-            
+            this.resume();
+            this.createPauseButton();
+
          }
-        
+
 
       })
 
@@ -193,7 +203,35 @@ class DodgePipes extends Phaser.Scene {
    }
 
    pause() {
+
+      this.gameisPaused = true;
       this.physics.pause();
+      
+     
+
+   }
+
+   resume() {
+      
+      this.gameisPaused = false;
+      this.physics.resume();
+    
+     
+   }
+
+   pauseorResume()
+   {
+     this.pauseButton.on("pointerdown",()=>{
+        if(this.gameisPaused === false)
+        {
+           this.pause();
+        }
+       else if(this.gameisPaused === true)
+        {
+           this.resume();
+        }
+     }) 
+     
    }
 
 }
