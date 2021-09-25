@@ -103,7 +103,7 @@ Issues that i had
 2. I feel that i could tidy up my main menu code. I don't find it really DRY. Maybe i should create a function to group the buttons together.
 
 
-## Day 7- 23/9/2121
+## Day 7- 24/9/2121
 
 - Added final mode and spawning of enemy birds
 - Added pause button

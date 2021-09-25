@@ -1,7 +1,7 @@
 class DodgePipes extends Phaser.Scene {
    constructor() {
       super("DodgePipes");
-      this.bird=null;
+
    }
 
    preload() {
@@ -101,7 +101,7 @@ class DodgePipes extends Phaser.Scene {
 
    }
 
-   
+
    createBackButton() {
 
 
@@ -178,7 +178,9 @@ class DodgePipes extends Phaser.Scene {
    gameOver() {
 
       this.saveHighScore();
-      this.scene.restart();
+      this.scene.stop("DodgePipes");
+      this.scene.launch("GameOver");
+     
    }
 
 
@@ -199,7 +201,7 @@ class DodgePipes extends Phaser.Scene {
             this.insText2.destroy();
             this.resume();
             this.createPauseButton();
-            
+
          }
 
 
@@ -242,12 +244,11 @@ class DodgePipes extends Phaser.Scene {
 
    }
 
-   Back()
-   {
-      this.BackButton.once("pointerdown",() => {
+   Back() {
+      this.BackButton.once("pointerdown", () => {
          this.scene.stop("DodgePipes");
          this.scene.launch("titleScreen");
-         
+
       })
    }
 

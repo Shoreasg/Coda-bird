@@ -121,7 +121,7 @@ class CollectStars extends Phaser.Scene {
    createPauseButton() {
 
 
-      this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
+      this.pauseButton = this.add.sprite(15, 465, 'pauseBtn').setInteractive({ useHandCursor: true })
 
       this.pauseorResume();
 
@@ -221,7 +221,8 @@ class CollectStars extends Phaser.Scene {
    gameOver() {
 
       this.saveHighScore();
-      this.scene.restart();
+      this.scene.stop("CollectStars");
+      this.scene.launch("GameOver");
    }
 
 

@@ -1,8 +1,6 @@
 class DodgeBirds extends Phaser.Scene {
    constructor() {
       super("DodgeBirds");
-      this.bird=null;
-
 
    }
 
@@ -13,6 +11,7 @@ class DodgeBirds extends Phaser.Scene {
       this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
       this.load.image('pauseBtn', 'src/sprites/pause.png');
+      this.load.image('backBtn', 'src/sprites/back.png');
    }
    create() {
       this.gameisPaused = false;
@@ -21,7 +20,7 @@ class DodgeBirds extends Phaser.Scene {
       this.respawntime = 0;
       this.pipesSpeed = -200;
       this.coinSpeed = -300;
-      this.enemyBirdSpeed = -400;
+      this.enemyBirdSpeed = -500;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
@@ -32,6 +31,7 @@ class DodgeBirds extends Phaser.Scene {
       this.checkcoinCollision();
       this.createScore();
       this.createIns();
+      this.createBackButton();
       this.startGame();
 
 
@@ -127,11 +127,21 @@ class DodgeBirds extends Phaser.Scene {
    createPauseButton() {
 
 
-      this.pauseButton = this.add.sprite(15, 450, 'pauseBtn').setInteractive({ useHandCursor: true })
+      this.pauseButton = this.add.sprite(15, 465, 'pauseBtn').setInteractive({ useHandCursor: true })
 
       this.pauseorResume();
 
    }
+
+     
+   createBackButton() {
+
+
+      this.BackButton = this.add.sprite(15, 490, 'backBtn').setInteractive({ useHandCursor: true })
+      this.Back();
+   }
+
+
    checkbirdCollision() {
       this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
       this.physics.add.collider(this.bird, this.enemyBirds, this.gameOver, null, this);
@@ -255,7 +265,8 @@ class DodgeBirds extends Phaser.Scene {
    gameOver() {
 
       this.saveHighScore();
-      this.scene.restart();
+      this.scene.stop("DodgeBirds");
+      this.scene.launch("GameOver");
    }
 
 
@@ -323,6 +334,14 @@ class DodgeBirds extends Phaser.Scene {
          }
       })
 
+   }
+   Back()
+   {
+      this.BackButton.once("pointerdown",() => {
+         this.scene.stop("DodgeBirds");
+         this.scene.launch("titleScreen");
+         
+      })
    }
 
 }
