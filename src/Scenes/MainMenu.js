@@ -8,6 +8,10 @@ class MainMenu extends Phaser.Scene {
         this.load.image('easyBird', 'src/sprites/bluebird-downflap.png');
         this.load.image('mediumBird', 'src/sprites/redbird-downflap.png');
         this.load.image('hardBird', 'src/sprites/yellowbird-downflap.png');
+
+
+        this.load.audio("MainMenuMusic", "src/Music/POL-follow-me-short.wav")
+
         this.createText();
     }
     create() {
@@ -15,6 +19,7 @@ class MainMenu extends Phaser.Scene {
         this.createBg();
         this.createText();
         this.createChoices();
+        this.createMusic();
     }
 
     createBg() {
@@ -22,6 +27,15 @@ class MainMenu extends Phaser.Scene {
 
     }
 
+    createMusic()
+    {
+
+        this.music = this.sound.add("MainMenuMusic");
+       this.music.play("",
+        {
+            loop: true
+        })
+    }
     createText() {
         this.add.text(85, 106, "3 in 1", { fontFamily: 'VT323', fontSize: '50px', fill: '#000' });
         this.add.text(110, 160, "Bird", { fontFamily: 'VT323', fontSize: '40px', fill: '#000' });
@@ -84,14 +98,17 @@ class MainMenu extends Phaser.Scene {
 
     clickedEasyState() {
         this.scene.stop("titleScreen");
+        this.music.stop();
         this.scene.start("DodgePipes");
     }
     clickedNormalState() {
         this.scene.stop("titleScreen");
+        this.music.stop();
         this.scene.start("CollectStars");
     }
     clickedHardState() {
         this.scene.stop("titleScreen");
+        this.music.stop();
         this.scene.start("DodgeBirds");
     }
 
