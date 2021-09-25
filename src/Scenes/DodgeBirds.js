@@ -1,7 +1,7 @@
 class DodgeBirds extends Phaser.Scene {
    constructor() {
       super("DodgeBirds");
-
+      this.bird=null;
 
 
    }
@@ -9,7 +9,7 @@ class DodgeBirds extends Phaser.Scene {
    preload() {
       this.load.image('background', 'src/sprites/background-day.png');
       this.load.image('pipe', 'src/sprites/pipe-red.png');
-      this.load.image('bird', 'src/sprites/yellowbird-downflap.png');
+      this.load.image('bird3', 'src/sprites/yellowbird-downflap.png');
       this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
       this.load.image('coin', 'src/sprites/star.png');
       this.load.image('pauseBtn', 'src/sprites/pause.png');
@@ -42,11 +42,13 @@ class DodgeBirds extends Phaser.Scene {
       this.checkBirdOutofBound();
       this.reusePipes();
 
-      this.respawntime += delta;
-      if (this.respawntime >= 5000) {
-         this.createCoins();
-         this.checkcoinCollision();
-         this.respawntime = 0;
+      if (this.gameisPaused === false) {
+         this.respawntime += delta;
+         if (this.respawntime >= 5000) {
+            this.createCoins();
+            this.checkcoinCollision();
+            this.respawntime = 0;
+         }
       }
 
       this.reuseCoins();
@@ -59,7 +61,7 @@ class DodgeBirds extends Phaser.Scene {
    }
 
    createBird() {
-      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird');
+      this.bird = this.physics.add.sprite(50, game.config.height / 2, 'bird3');
       this.bird.body.gravity.y = 500;
       this.birdFlap();
    }

@@ -1,7 +1,7 @@
 // this is where everything loads
 const config = {
     type: Phaser.AUTO,
-    title: "Coda Bird",
+    title: "3 in 1 Bird",
     url: "https://shoreasg.github.io/Coda-bird/",
     parent: "main",
     input: true,

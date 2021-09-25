@@ -84,15 +84,15 @@ class MainMenu extends Phaser.Scene {
 
     clickedEasyState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("DodgePipes");
+        this.scene.start("DodgePipes");
     }
     clickedNormalState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("CollectStars");
+        this.scene.start("CollectStars");
     }
     clickedHardState() {
         this.scene.stop("titleScreen");
-        this.scene.launch("DodgeBirds");
+        this.scene.start("DodgeBirds");
     }
 
 }
