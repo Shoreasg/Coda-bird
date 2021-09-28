@@ -11,7 +11,9 @@ class MainMenu extends Phaser.Scene {
 
 
         this.load.audio("MainMenuMusic", "src/Music/POL-follow-me-short.wav")
-
+        this.load.audio("hoverSoundPipes", "src/Music/toggle_001.ogg")
+        this.load.audio("hoverSoundStars", "src/Music/toggle_002.ogg")
+        this.load.audio("hoverSoundBirds", "src/Music/toggle_003.ogg")
         this.createText();
     }
     create() {
@@ -71,16 +73,19 @@ class MainMenu extends Phaser.Scene {
 
     easyHoverState() {
         this.easyButton.setTint(0xff0000);
+        this.sound.play("hoverSoundPipes")
 
     }
     mediumHoverState() {
 
         this.mediumButton.setTint(0xff0000);
+        this.sound.play("hoverSoundStars")
 
     }
     hardHoverState() {
 
         this.hardButton.setTint(0xff0000);
+        this.sound.play("hoverSoundBirds")
     }
 
     resetEasyState() {
