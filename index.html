@@ -18,11 +18,35 @@
     <script src="./src/Scenes/DodgeBirds.js" charset="utf-8"></script>
     <script src="./src/Scenes/gameOver.js" charset="utf-8"></script>
     <script src="./src/main.js" charset="utf-8"></script>
+    <script src="./src/Scenes/HighScore.js" charset="utf-8"></script>
 </head>
 
 <body>
     <div id="main">
 
+    </div>
+
+    <div id="highscore">
+        <h1>Highscore</h1>
+        <h1>(Refresh to see the latest Highscore)</h1>
+        <table>
+            <tr>
+                <th>Mode</th>
+                <th>Highest Score</th>
+            </tr>
+            <tr>
+                <td>Pipes!</td>
+                <td id="dodgepipes"></td>
+            </tr>
+            <tr>
+                <td>Stars!</td>
+                <td id="collectstars"></td>
+            </tr>
+            <tr>
+                <td>Birds!</td>
+                <td id="dodgebirds"></td>
+            </tr>
+        </table>
     </div>
 
 </body>

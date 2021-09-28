@@ -127,3 +127,16 @@ Tomorrow i will be taking a break. After the break, i will be adding more sound 
 
 
 
+## Day 9- 26/9/2121
+
+
+- Today is a break day.
+
+
+## Day 10 - 27/9/2121
+
+Grandma was unconscious at around 11pm. Rush her to the hospital. She passed on after that. Didn't really have any time to settle work.
+
+## Day 11 - 28/9/2021
+
+Spend whole day at the funeral. Reached home and worked on

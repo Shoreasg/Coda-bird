@@ -10,6 +10,8 @@ class DodgePipes extends Phaser.Scene {
       this.load.image('bird', 'src/sprites/bluebird-downflap.png');
       this.load.image('pauseBtn', 'src/sprites/pause.png');
       this.load.image('backBtn', 'src/sprites/back.png');
+      this.load.audio("CollectPoints", "src/Music/CoinCollect.ogg")
+      this.load.audio("birdFlap", "src/Music/toggle_001.ogg")
    }
    create() {
 
@@ -156,6 +158,7 @@ class DodgePipes extends Phaser.Scene {
          {
             usedPipes.push(pipe);
             if (usedPipes.length == 2) {
+               this.sound.play("CollectPoints")
                this.increaseScore();
                this.placePipes(...usedPipes);
             }
@@ -187,7 +190,7 @@ class DodgePipes extends Phaser.Scene {
    birdFlap() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
-
+            this.sound.play("birdFlap")
             this.bird.setVelocityY(this.birdFlapSpeed);
          }
       })

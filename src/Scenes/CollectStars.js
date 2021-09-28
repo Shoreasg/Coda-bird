@@ -13,6 +13,8 @@ class CollectStars extends Phaser.Scene {
       this.load.image('coin', 'src/sprites/star.png');
       this.load.image('pauseBtn', 'src/sprites/pause.png');
       this.load.image('backBtn', 'src/sprites/back.png');
+      this.load.audio("CollectStars", "src/Music/CoinCollect.ogg")
+      this.load.audio("birdFlap", "src/Music/toggle_002.ogg")
    }
    create() {
       this.gameisPaused = false;
@@ -98,7 +100,7 @@ class CollectStars extends Phaser.Scene {
    createScore() {
       this.score = 0;
       this.scoreText;
-      this.highScore = localStorage.getItem("NormalHighScore");
+      this.highScore = localStorage.getItem("normalHighScore");
       this.scoreText = this.add.text(0, 0, "Stars Collected: 0", { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
       this.highScoreText = this.add.text(0, 20, `Highest stars: ${this.highScore || 0}`, { fontFamily: 'VT323', fontSize: '20px', fill: '#000' })
 
@@ -210,11 +212,11 @@ class CollectStars extends Phaser.Scene {
    }
 
    saveHighScore() {
-      this.highScoreText = localStorage.getItem("NormalHighScore");
+      this.highScoreText = localStorage.getItem("normalHighScore");
       this.highScore = this.highScoreText && parseInt(this.highScoreText);
 
       if (!this.highScore || this.score > this.highScore) {
-         localStorage.setItem("NormalHighScore", this.score);
+         localStorage.setItem("normalHighScore", this.score);
       }
    }
 
@@ -229,7 +231,7 @@ class CollectStars extends Phaser.Scene {
    birdFlap() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
-
+            this.sound.play("birdFlap")
             this.bird.setVelocityY(this.birdFlapSpeed);
          }
       })
@@ -237,6 +239,7 @@ class CollectStars extends Phaser.Scene {
 
    collectStar(bird, coin) {
       coin.disableBody(true, true)
+      this.sound.play("CollectStars")
       this.increaseScore();
 
 
