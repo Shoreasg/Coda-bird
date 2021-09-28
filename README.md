@@ -139,4 +139,4 @@ Grandma was unconscious at around 11pm. Rush her to the hospital. She passed on 
 
 ## Day 11 - 28/9/2021
 
-Spend whole day at the funeral. Reached home and worked on
+Spend whole day at the funeral. Reached home and worked on sound effects and create a highscore at the bottom of the screen. Highscore at the bottom will always be refresh every 1 second. Tomorrow or Thursday, i will be adjusting my naming conventions and writing down comments for my code.
