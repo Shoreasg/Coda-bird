@@ -27,7 +27,7 @@ class MainMenu extends Phaser.Scene {
 
 
     createBg() {
-        this.bg = this.physics.add.sprite(0, 0, 'background').setOrigin(0);
+        this.add.sprite(0, 0, 'background').setOrigin(0);
 
     }
 

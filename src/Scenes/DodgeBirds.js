@@ -9,7 +9,7 @@ class DodgeBirds extends Phaser.Scene {
       this.load.image('pipe', 'src/sprites/pipe-red.png');
       this.load.image('bird3', 'src/sprites/yellowbird-downflap.png');
       this.load.image('enemyBird', 'src/sprites/redbird-downflap.png');
-      this.load.image('coin', 'src/sprites/star.png');
+      this.load.image('star', 'src/sprites/star.png');
       this.load.image('pauseBtn', 'src/sprites/pause.png');
       this.load.image('backBtn', 'src/sprites/back.png');
       this.load.audio("CollectStars", "src/Music/CoinCollect.ogg")
@@ -21,16 +21,16 @@ class DodgeBirds extends Phaser.Scene {
 
       this.respawntime = 0;
       this.pipesSpeed = -200;
-      this.coinSpeed = -300;
+      this.starSpeed = -300;
       this.enemyBirdSpeed = -500;
       this.birdFlapSpeed = -200;
       this.createBg();
       this.createBird();
       this.createPipes();
-      this.createCoins();
+      this.createStars();
       this.createEnemyBird();
       this.checkbirdCollision();
-      this.checkcoinCollision();
+      this.checkstarCollision();
       this.createScore();
       this.createIns();
       this.createBackButton();
@@ -47,13 +47,13 @@ class DodgeBirds extends Phaser.Scene {
       if (this.gameisPaused === false) {
          this.respawntime += delta;
          if (this.respawntime >= 5000) {
-            this.createCoins();
-            this.checkcoinCollision();
+            this.createStars();
+            this.checkstarCollision();
             this.respawntime = 0;
          }
       }
 
-      this.reuseCoins();
+      this.reuseStars();
       this.reuseEnemyBirds();
    }
 
@@ -87,15 +87,15 @@ class DodgeBirds extends Phaser.Scene {
 
    }
 
-   createCoins() {
+   createStars() {
 
-      this.coins = this.physics.add.group();
+      this.stars = this.physics.add.group();
 
 
-      const groupOfCoins = this.coins.create(0, 0, "coin")
-      this.placeCoins(groupOfCoins);
+      const groupOfStars = this.stars.create(0, 0, "star")
+      this.placeStars(groupOfStars);
 
-      this.coins.setVelocityX(this.coinSpeed);
+      this.stars.setVelocityX(this.starSpeed);
 
    }
 
@@ -150,8 +150,8 @@ class DodgeBirds extends Phaser.Scene {
 
    }
 
-   checkcoinCollision() {
-      this.physics.add.overlap(this.bird, this.coins, this.collectStar, null, this);
+   checkstarCollision() {
+      this.physics.add.overlap(this.bird, this.stars, this.collectStar, null, this);
    }
 
 
@@ -190,13 +190,13 @@ class DodgeBirds extends Phaser.Scene {
 
    }
 
-   placeCoins(coin) {
-      let coinsXPosition = Math.floor(Math.random() * 201) + 400
-      let coinsYPosition = Math.floor(Math.random() * 401) + 100
+   placeStars(star) {
+      let starsXPosition = Math.floor(Math.random() * 201) + 400
+      let starsYPosition = Math.floor(Math.random() * 401) + 100
 
 
-      coin.x = coinsXPosition
-      coin.y = coinsYPosition;
+      star.x = starsXPosition
+      star.y = starsYPosition;
 
 
    }
@@ -227,13 +227,13 @@ class DodgeBirds extends Phaser.Scene {
       })
    }
 
-   reuseCoins() {
-      let usedCoins = [];
-      this.coins.getChildren().forEach(coin => {
-         if (coin.getBounds().right <= 0) {
-            usedCoins.push(coin);
-            if (usedCoins.length == 1) {
-               this.placeCoins(usedCoins[0]);
+   reuseStars() {
+      let usedStars = [];
+      this.stars.getChildren().forEach(star => {
+         if (star.getBounds().right <= 0) {
+            usedStars.push(star);
+            if (usedStars.length == 1) {
+               this.placeStars(usedStars[0]);
             }
          }
 
@@ -281,8 +281,8 @@ class DodgeBirds extends Phaser.Scene {
       })
    }
 
-   collectStar(bird, coin) {
-      coin.disableBody(true, true)
+   collectStar(bird, star) {
+      star.disableBody(true, true)
       this.sound.play("CollectStars")
       this.increaseScore();
 
@@ -291,8 +291,8 @@ class DodgeBirds extends Phaser.Scene {
    increaseDifficulty() {
       if (this.score === 5) {
          this.pipesSpeed = -300;
-         this.coinSpeed = -400;
-         this.coins.setVelocityX(this.coinSpeed);
+         this.starSpeed = -400;
+         this.stars.setVelocityX(this.starSpeed);
          this.pipes.setVelocityX(this.pipesSpeed);
       }
    }
