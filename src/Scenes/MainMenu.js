@@ -33,7 +33,7 @@ class MainMenu extends Phaser.Scene {
 
     createMusic() {
 
-        this.music = this.sound.add("MainMenuMusic");
+        this.music = this.sound.add("MainMenuMusic",{volume: 0.2});
         this.music.play(
             {
                 loop: true,
