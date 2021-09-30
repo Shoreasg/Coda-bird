@@ -149,3 +149,6 @@ Refactor my code.
 ## Day 12 - 30/9/2021
 
 Added volume to my music
+fix some music bugs
+
+
