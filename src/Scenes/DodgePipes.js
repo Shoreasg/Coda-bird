@@ -11,7 +11,7 @@ class DodgePipes extends Phaser.Scene {// extend fropm Phaser Scene to use the o
       this.load.image('pauseBtn', 'src/sprites/pause.png');
       this.load.image('backBtn', 'src/sprites/back.png');
       this.load.audio("collectPoints", "src/Music/CoinCollect.ogg")
-      this.load.audio("birdFlap", "src/Music/toggle_001.ogg")
+      this.load.audio("birdFlap1", "src/Music/toggle_001.ogg")
    }
    create() {
 
@@ -188,7 +188,11 @@ class DodgePipes extends Phaser.Scene {// extend fropm Phaser Scene to use the o
    birdFlap() { //detect if user right click. Yes, flap the bird.
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
-            this.sound.play("birdFlap")
+            if(this.gameisPaused == false)
+            {
+               this.sound.play("birdFlap1")
+            }
+       
             this.bird.setVelocityY(this.birdFlapSpeed);
          }
       })

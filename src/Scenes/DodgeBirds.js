@@ -13,7 +13,7 @@ class DodgeBirds extends Phaser.Scene {
       this.load.image('pauseBtn', 'src/sprites/pause.png');
       this.load.image('backBtn', 'src/sprites/back.png');
       this.load.audio("CollectStars", "src/Music/CoinCollect.ogg")
-      this.load.audio("birdFlap", "src/Music/toggle_003.ogg")
+      this.load.audio("birdFlap3", "src/Music/toggle_003.ogg")
    }
    create() {
       this.gameisPaused = false;
@@ -275,7 +275,10 @@ class DodgeBirds extends Phaser.Scene {
    birdFlap() {
       this.input.on("pointerdown", (e) => {
          if (e.leftButtonDown()) {
-            this.sound.play("birdFlap")
+            if(this.gameisPaused == false)
+            {
+               this.sound.play("birdFlap3")
+            }
             this.bird.setVelocityY(this.birdFlapSpeed);
          }
       })
