@@ -24,7 +24,7 @@ class gameOver extends Phaser.Scene { // extend fropm Phaser Scene to use the or
     }
     createMusic() { //this function plays the music when its game over.
 
-        this.music = this.sound.add("GameOverMusic");
+        this.music = this.sound.add("GameOverMusic",{volume: 0.2});
         this.music.play(
             {
                 loop: true,
